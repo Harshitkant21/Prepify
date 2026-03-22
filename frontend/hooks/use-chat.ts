@@ -175,7 +175,7 @@ export function useChat() {
           setInterviewLocked(false)
         }
         addMessage(
-          'Sorry, I encountered an error. Please try again.',
+          `I'm having trouble right now, try again in a moment.`,
           false
         )
       } finally {
