@@ -6,7 +6,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Interview Prep AI',
+  title: 'Prepify',
   description: 'Master interviews with AI-powered practice questions and real-time feedback',
   generator: 'v0.app',
   icons: {
