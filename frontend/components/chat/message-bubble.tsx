@@ -58,34 +58,42 @@ export function MessageBubble({
       className={`flex gap-3 animate-slide-in ${isUser ? "justify-end" : "justify-start"}`}
     >
       <div
-        className={`max-w-2 lg:max-w-md rounded-lg px-4 py-3 shadow-sm transition-all ${
-          isUser
-            ? "bg-blue-600 text-white rounded-br-none hover:bg-blue-700"
-            : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-none hover:bg-slate-200 dark:hover:bg-slate-700"
-        }`}
+        className={`min-w-0 w-fit max-w-[85%] sm:max-w-md lg:max-w-md rounded-lg px-4 py-3 shadow-sm transition-all ${isUser
+          ? "bg-blue-600 text-white rounded-br-none hover:bg-blue-700"
+          : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-none hover:bg-slate-200 dark:hover:bg-slate-700"
+          }`}
       >
         {reportBody ?? (
-          // <div className="text-sm leading-relaxed whitespace-pre-wrap break-words">
-          //   <ReactMarkdown>{content}</ReactMarkdown>
-          // </div>
-          // <div className="prose prose-sm max-w-none dark:prose-invert wrap-break-word">
-          //   <ReactMarkdown>{content}</ReactMarkdown>
-          // </div>
-          <ReactMarkdown
-            components={{
-              code({ inline, className, children,...props }:any) {
-                return !inline ? (
-                  <pre className="bg-gray-900 text-blue-400 p-3 rounded-lg overflow-x-auto text-xs">
-                    <code>{children}</code>
-                  </pre>
-                ) : (
-                  <code className="bg-gray-200 px-1 rounded">{children}</code>
-                );
-              },
-            }}
-          >
-            {formatAIResponse(content)}
-          </ReactMarkdown>
+          <div className="whitespace-pre-wrap break-words">
+
+
+            <ReactMarkdown
+              components={{
+                pre({ children }) {
+                  return (
+                    <pre className="bg-gray-900 text-blue-400 p-3 rounded-lg overflow-x-auto text-xs max-w-full">
+                      {children}
+                    </pre>
+                  );
+                },
+                code({ inline, children }: any) {
+                  if (inline) {
+                    return (
+                      <code className="bg-gray-200 px-1 rounded break-all">
+                        {children}
+                      </code>
+                    );
+                  }
+                  return <code>{children}</code>; // NO <pre> here
+                },
+                p({ children }) {
+                  return <p className="mb-2 leading-relaxed">{children}</p>;
+                },
+              }}
+            >
+              {formatAIResponse(content)}
+            </ReactMarkdown>
+          </div>
         )}
         {timestamp && (
           <p
